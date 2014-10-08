@@ -29,9 +29,21 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(session({secret: "This is a long string."}));
 
+var actions = {
+  'GET': function(req, res) {
+    if(util.checkUser(req)) {
+      switch("test") {
+        //request base urls
+      }
+    }
+  },
+
+  'POST': function() {}
+}
+
 app.get('/',
 function(req, res) {
-  if (req.session.name){
+  if (util.checkUser(req)){
     res.redirect('/index');
   } else {
     res.render('login');
@@ -61,11 +73,9 @@ app.get('/signup', function(req, res){
 app.get('/create',
 function(req, res) {
   if (req.session.name){
-    console.log("Cookie got me here:", req.session.name);
-    // change to forward to the user's list of shortenedURLs
-    res.render('index');
+    res.redirect('/index');
   } else {
-    res.render('login');
+    res.redirect('/login');
   }
 });
 
@@ -82,7 +92,7 @@ function(req, res) {
       res.send(200, $linkPage);
     });
   } else {
-    res.render('login');
+    res.redirect('/login');
   }
 });
 
