@@ -31,9 +31,20 @@ app.use(session({secret: "This is a long string."}));
 
 var actions = {
   'GET': function(req, res) {
+    //if user is logged in
     if(util.checkUser(req)) {
-      switch("test") {
+      switch(req.url) {
         //request base urls
+        case '/':
+        res.redirect('/index');
+        break;
+      }
+    } else {
+       switch(req.url) {
+        //request base urls
+        case '/':
+        res.render('login');
+        break;
       }
     }
   },
